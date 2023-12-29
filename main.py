@@ -33,7 +33,7 @@ STATUS_MESSAGE_ID = int(getenv("STATUS_MESSAGE_ID"))
 TIME = int(getenv("TIME"))
 
 # Restart My Bot
-REBOTS = [i.strip() for i in getenv("DEZ").split(' ')]
+REBOTS = [i.strip() for i in getenv("BOTS").split(' ')]
 
 Alty = pyrogram.Client(SESSION_STRING, api_id=API_ID, api_hash=API_HASH)
 
