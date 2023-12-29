@@ -1,4 +1,4 @@
-# (C) @DamienSoukara 
+# (C) @KashDaYash 
 
 from os import getenv
 from dotenv import load_dotenv
@@ -11,7 +11,7 @@ import pyrogram
 load_dotenv()
 # Api Strings From my.telegram.org
 
-API_ID = int(("API_ID"))
+API_ID = int(getenv("API_ID"))
 API_HASH = getenv("API_HASH")
 
 # Your Session Strings
