@@ -82,6 +82,7 @@ async def check_restart_status(app, re, BOT_OWNER, LOGGER_CHAT):
         TEXT = await check_restart_status(app, re, BOT_OWNER, LOGGER_CHAT)
 
     await app.read_chat_history(re)
+    return TEXT 
 
 async def main():
     async with app:
