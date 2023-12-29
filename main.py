@@ -42,16 +42,17 @@ app = pyrogram.Client(name="botstatus", session_string=SESSION, api_id=API_ID, a
 async def check_bot_status(app, bot, BOT_OWNER, LOGGER_CHAT):
     print(f"💬 [INFO] Checking @{bot}")
     try:
+        TEXT = ""
         x = await app.send_message(bot, '/start')
         await asyncio.create_task(asyncio.sleep(15))
         async for msg in app.get_chat_history(bot, limit=1):
             if x.id == msg.id:
                 print(f"⚠️ [WARNING] @{bot} Is Down")
-                TEXT = f"❌ - @{bot}\n"
+                TEXT += f"❌ - @{bot}\n"
                 await app.send_message(LOGGER_CHAT, f"❌ - @{bot} IS DOWN !")
             else:
                 print(f"☑ [INFO] All Good With @{bot}")
-                TEXT = f"✅ - @{bot}\n"
+                TEXT += f"✅ - @{bot}\n"
     except FloodWait as e:
         print(f"⚠️ [WARNING] FloodWait for {e.x} seconds. Retrying...")
         await asyncio.sleep(e.x)
@@ -79,7 +80,6 @@ async def check_restart_status(app, re, BOT_OWNER, LOGGER_CHAT):
         TEXT = await check_restart_status(app, re, BOT_OWNER, LOGGER_CHAT)
 
     await app.read_chat_history(re)
-    return TEXT
 
 async def main():
     async with app:
@@ -98,7 +98,6 @@ async def main():
 
             tasks = [check_restart_status(app, re, BOT_OWNER, LOGGER_CHAT) for re in REBOTS]
             restart_results = await asyncio.gather(*tasks)
-            TEXT += ''.join(restart_results)
 
             try:
                 await app.edit_message_text(UPDATE_CHANNEL, STATUS_MESSAGE_ID, text=TEXT, disable_web_page_preview=True, parse_mode="html")
