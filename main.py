@@ -58,9 +58,9 @@ def main():
                 Alty.read_history(bot)
 
             utc_now = datetime.datetime.now(pytz.timezone('UTC')).strftime("%I:%M %p %d/%m/%y")
-            ma_now = datetime.datetime.now(pytz.timezone('Africa/Casablanca')).strftime("%d/%m/%y %I:%M:%S %p")
+            ma_now = datetime.datetime.now(pytz.timezone('Asia/Kolkata')).strftime("%d/%m/%y %I:%M:%S %p")
 
-            TEXT += f"\n⏱ <b>LAST UPDATE :</b>\n\n🌎 UTC : {str(utc_now)}\n🇲🇦 MA : {str(ma_now)}"
+            TEXT += f"\n⏱ <b>LAST UPDATE :</b>\n\n🌎 UTC : {str(utc_now)}\n🇮🇳 MA : {str(ma_now)}"
 
 
 
