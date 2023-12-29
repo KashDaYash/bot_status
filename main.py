@@ -15,7 +15,7 @@ API_ID = int(getenv("API_ID", None))
 API_HASH = getenv("API_HASH", None)
 
 # Your Session Strings
-SESSION_STRING = getenv("SESSION_STRING", None)
+SESSION = getenv("SESSION_STRING", None)
 
 # Your Bots Username Without '@' With A Space 1 To Another
 BOTS = [i.strip() for i in getenv("BOTS", None).split(' ')]
@@ -35,10 +35,10 @@ TIME = int(getenv("TIME", None))
 # Restart My Bot
 REBOTS = [i.strip() for i in getenv("BOTS", None).split(' ')]
 
-Alty = pyrogram.Client(SESSION_STRING, api_id=API_ID, api_hash=API_HASH)
+app = pyrogram.Client(SESSION, api_id=API_ID, api_hash=API_HASH)
 
 def main():
-    with Alty:
+    with app:
         while True:
             print("💬 [INFO] Starting To Check Uptime..")
             TEXT = f"<b>👾 @{UPDATE_CHANNEL} Our Bot's Status (Updating Every  {round(TIME / 60)} Hours)</b>\n\n<b>📜 BOTS :</b>\n\n"
@@ -46,20 +46,20 @@ def main():
             for bot in BOTS:
                 print(f"💬 [INFO] Checking @{bot}")
 
-                x = Alty.send_message(bot, '/start')
+                x = app.send_message(bot, '/start')
 
                 time.sleep(15)
-                msg = Alty.get_history(bot, 1)[0]
+                msg = app.get_history(bot, 1)[0]
 
                 if x.message_id == msg.message_id:
                     print(f"⚠️ [WARNING] @{bot} Is Down")
                     TEXT += f"❌ - @{bot}\n"
-                    Alty.send_message(BOT_OWNER, f"❌ - @{bot} IS DOWN !")
+                    app.send_message(BOT_OWNER, f"❌ - @{bot} IS DOWN !")
 
                 else:
                     print(f"☑ [INFO] All Good With @{bot}")
                     TEXT += f"✅ - @{bot}\n"
-                Alty.read_history(bot)
+                app.read_history(bot)
 
             utc_now = datetime.datetime.now(pytz.timezone('UTC')).strftime("%I:%M %p %d/%m/%y")
             ma_now = datetime.datetime.now(pytz.timezone('Asia/Kolkata')).strftime("%d/%m/%y %I:%M:%S %p")
@@ -71,23 +71,23 @@ def main():
             for re in REBOTS:
                 print(f"💬 [INFO] Checking @{re}")
 
-                x = Alty.send_message(re, '/restart')
+                x = app.send_message(re, '/restart')
 
                 time.sleep(15)
-                msg = Alty.get_history(re, 1)[0]
+                msg = app.get_history(re, 1)[0]
 
                 if x.message_id == msg.message_id:
                     print(f"⛔ [WARNING] I Can't Restart @{re}")
                     TEXT += f"❌ - @{re}\n"
-                    Alty.send_message(BOT_OWNER, f"⛔ - I Can't Restart @{re} !")
+                    app.send_message(BOT_OWNER, f"⛔ - I Can't Restart @{re} !")
 
                 else:
                     print(f"✅ [INFO] Restarted @{re}")
-                    Alty.send_message(BOT_OWNER, f"✅ - @{re} #RESTARTED #DONE !")
+                    app.send_message(BOT_OWNER, f"✅ - @{re} #RESTARTED #DONE !")
 
-                Alty.read_history(re)
+                app.read_history(re)
 
-            Alty.edit_message_text(UPDATE_CHANNEL, STATUS_MESSAGE_ID, text=TEXT, disable_web_page_preview=True, parse_mode="html")
+            app.edit_message_text(UPDATE_CHANNEL, STATUS_MESSAGE_ID, text=TEXT, disable_web_page_preview=True, parse_mode="html")
             print(f"[INFO] Everything Done! Sleeping For {round(TIME / 60)} Hours...")
             time.sleep(TIME * 60)
 
