@@ -96,8 +96,8 @@ async def main():
 
             TEXT += f"\n⏱ <b>LAST UPDATE :</b>\n\n🌎 UTC : {str(utc_now)}\n🇮🇳 MA : {str(ma_now)}"
 
-            tasks = [check_restart_status(app, re, BOT_OWNER, LOGGER_CHAT) for re in REBOTS]
-            restart_results = await asyncio.gather(*tasks)
+            taskss = [check_restart_status(app, re, BOT_OWNER, LOGGER_CHAT) for re in REBOTS]
+            restart_results = await asyncio.gather(*taskss)
 
             try:
                 await app.edit_message_text(UPDATE_CHANNEL, STATUS_MESSAGE_ID, text=TEXT, disable_web_page_preview=True, parse_mode="html")
