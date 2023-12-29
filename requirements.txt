@@ -2,3 +2,4 @@ pyrogram
 tgcrypto
 pytz
 python-dotenv
+asyncio

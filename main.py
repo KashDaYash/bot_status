@@ -2,7 +2,7 @@
 
 from os import getenv
 from dotenv import load_dotenv
-
+import asyncio 
 import time
 import datetime
 import pytz
@@ -37,58 +37,76 @@ REBOTS = [i.strip() for i in getenv("BOTS").split(' ')]
 
 app = pyrogram.Client(name="botstatus", session_string=SESSION, api_id=API_ID, api_hash=API_HASH)
 
-def main():
-    with app:
+async def check_bot_status(app, bot, BOT_OWNER):
+    print(f"💬 [INFO] Checking @{bot}")
+    try:
+        x = await app.send_message(bot, '/start')
+        await asyncio.sleep(15)
+        msg = (await app.get_chat_history(bot, limit=1))[0]
+
+        if x.message_id == msg.message_id:
+            print(f"⚠️ [WARNING] @{bot} Is Down")
+            TEXT = f"❌ - @{bot}\n"
+            await app.send_message(BOT_OWNER, f"❌ - @{bot} IS DOWN !")
+        else:
+            print(f"☑ [INFO] All Good With @{bot}")
+            TEXT = f"✅ - @{bot}\n"
+    except FloodWait as e:
+        print(f"⚠️ [WARNING] FloodWait for {e.x} seconds. Retrying...")
+        await asyncio.sleep(e.x)
+        TEXT = await check_bot_status(app, bot, BOT_OWNER)
+    
+    await app.read_history(bot)
+    return TEXT
+
+async def check_restart_status(app, re, BOT_OWNER):
+    print(f"💬 [INFO] Checking @{re}")
+    try:
+        x = await app.send_message(re, '/restart')
+        await asyncio.sleep(15)
+        msg = (await app.get_chat_history(re, limit=1))[0]
+
+        if x.message_id == msg.message_id:
+            print(f"⛔ [WARNING] I Can't Restart @{re}")
+            TEXT = f"❌ - @{re}\n"
+            await app.send_message(BOT_OWNER, f"⛔ - I Can't Restart @{re} !")
+        else:
+            print(f"✅ [INFO] Restarted @{re}")
+            await app.send_message(BOT_OWNER, f"✅ - @{re} #RESTARTED #DONE !")
+    except FloodWait as e:
+        print(f"⚠️ [WARNING] FloodWait for {e.x} seconds. Retrying...")
+        await asyncio.sleep(e.x)
+        TEXT = await check_restart_status(app, re, BOT_OWNER)
+
+    await app.read_history(re)
+    return TEXT
+
+async def main():
+    async with app:
         while True:
             print("💬 [INFO] Starting To Check Uptime..")
             TEXT = f"<b>👾 @{UPDATE_CHANNEL} Our Bot's Status (Updating Every  {round(TIME / 60)} Hours)</b>\n\n<b>📜 BOTS :</b>\n\n"
 
-            for bot in BOTS:
-                print(f"💬 [INFO] Checking @{bot}")
-
-                x = app.send_message(bot, '/start')
-
-                time.sleep(15)
-                msg = app.get_chat_history(bot, 1)[0]
-
-                if x.message.id == msg.message.id:
-                    print(f"⚠️ [WARNING] @{bot} Is Down")
-                    TEXT += f"❌ - @{bot}\n"
-                    app.send_message(BOT_OWNER, f"❌ - @{bot} IS DOWN !")
-
-                else:
-                    print(f"☑ [INFO] All Good With @{bot}")
-                    TEXT += f"✅ - @{bot}\n"
-                app.read_history(bot)
+            tasks = [check_bot_status(app, bot, BOT_OWNER) for bot in BOTS]
+            bot_results = await asyncio.gather(*tasks)
+            TEXT += ''.join(bot_results)
 
             utc_now = datetime.datetime.now(pytz.timezone('UTC')).strftime("%I:%M %p %d/%m/%y")
             ma_now = datetime.datetime.now(pytz.timezone('Asia/Kolkata')).strftime("%d/%m/%y %I:%M:%S %p")
 
             TEXT += f"\n⏱ <b>LAST UPDATE :</b>\n\n🌎 UTC : {str(utc_now)}\n🇮🇳 MA : {str(ma_now)}"
 
+            tasks = [check_restart_status(app, re, BOT_OWNER) for re in REBOTS]
+            restart_results = await asyncio.gather(*tasks)
+            TEXT += ''.join(restart_results)
 
+            try:
+                await app.edit_message_text(UPDATE_CHANNEL, STATUS_MESSAGE_ID, text=TEXT, disable_web_page_preview=True, parse_mode="html")
+                print(f"[INFO] Everything Done! Sleeping For {round(TIME / 60)} Hours...")
+            except FloodWait as e:
+                print(f"⚠️ [WARNING] FloodWait for {e.x} seconds. Retrying...")
+                await asyncio.sleep(e.x)
 
-            for re in REBOTS:
-                print(f"💬 [INFO] Checking @{re}")
+            await asyncio.sleep(TIME * 60)
 
-                x = app.send_message(re, '/restart')
-
-                time.sleep(15)
-                msg = app.get_history(re, 1)[0]
-
-                if x.message.id == msg.message.id:
-                    print(f"⛔ [WARNING] I Can't Restart @{re}")
-                    TEXT += f"❌ - @{re}\n"
-                    app.send_message(BOT_OWNER, f"⛔ - I Can't Restart @{re} !")
-
-                else:
-                    print(f"✅ [INFO] Restarted @{re}")
-                    app.send_message(BOT_OWNER, f"✅ - @{re} #RESTARTED #DONE !")
-
-                app.read_history(re)
-
-            app.edit_message_text(UPDATE_CHANNEL, STATUS_MESSAGE_ID, text=TEXT, disable_web_page_preview=True, parse_mode="html")
-            print(f"[INFO] Everything Done! Sleeping For {round(TIME / 60)} Hours...")
-            time.sleep(TIME * 60)
-
-main()
+asyncio.run(main())
