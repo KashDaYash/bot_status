@@ -37,7 +37,7 @@ TIME = int(getenv("TIME"))
 # Restart My Bot
 REBOTS = [i.strip() for i in getenv("BOTS").split(' ')]
 
-app = pyrogram.Client(name="botstatus", session_string=SESSION, api_id=API_ID, api_hash=API_HASH)
+app = Client(name="botstatus", session_string=SESSION, api_id=API_ID, api_hash=API_HASH)
 
 async def check_bot_status(app, bot, BOT_OWNER, LOGGER_CHAT):
     print(f"💬 [INFO] Checking @{bot}")
