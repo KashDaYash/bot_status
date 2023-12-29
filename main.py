@@ -82,7 +82,9 @@ async def check_restart_status(app, re, BOT_OWNER):
     return TEXT
 
 async def main():
+    loop = asyncio.get_event_loop()
     async with app:
+        task = loop.create_task(your_coroutine())
         while True:
             print("💬 [INFO] Starting To Check Uptime..")
             TEXT = f"<b>👾 @{UPDATE_CHANNEL} Our Bot's Status (Updating Every  {round(TIME / 60)} Hours)</b>\n\n<b>📜 BOTS :</b>\n\n"
@@ -109,4 +111,5 @@ async def main():
 
             await asyncio.sleep(TIME * 60)
 
-asyncio.run(main())
+if __name__ == "__main__":
+    asyncio.run(main())
