@@ -63,7 +63,7 @@ async def check_bot_status(app, bot, BOT_OWNER):
 async def check_restart_status(app, re, BOT_OWNER):
     print(f"💬 [INFO] Checking @{re}")
     try:
-        x = await app.send_message(re, '/restart')
+        x = await app.send_message(re, '/start')
         await asyncio.create_task(asyncio.sleep(15))
         async for msg in app.get_chat_history(re, limit=1):
             if x.id == msg.id:
