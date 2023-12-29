@@ -55,7 +55,7 @@ async def check_bot_status(app, bot, BOT_OWNER, LOGGER_CHAT):
     except FloodWait as e:
         print(f"⚠️ [WARNING] FloodWait for {e.x} seconds. Retrying...")
         await asyncio.sleep(e.x)
-        TEXT = await check_bot_status(app, bot, BOT_OWNER)
+        TEXT = await check_bot_status(app, bot, BOT_OWNER, LOGGER_CHAT)
 
     await app.read_chat_history(bot)
     return TEXT
@@ -76,7 +76,7 @@ async def check_restart_status(app, re, BOT_OWNER, LOGGER_CHAT):
     except FloodWait as e:
         print(f"⚠️ [WARNING] FloodWait for {e.x} seconds. Retrying...")
         await asyncio.sleep(e.x)
-        TEXT = await check_restart_status(app, re, BOT_OWNER)
+        TEXT = await check_restart_status(app, re, BOT_OWNER, LOGGER_CHAT)
 
     await app.read_chat_history(re)
     return TEXT
