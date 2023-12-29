@@ -49,9 +49,9 @@ def main():
                 x = app.send_message(bot, '/start')
 
                 time.sleep(15)
-                msg = app.get_history(bot, 1)[0]
+                msg = app.get_chat_history(bot, 1)[0]
 
-                if x.message_id == msg.message_id:
+                if x.message.id == msg.message.id:
                     print(f"⚠️ [WARNING] @{bot} Is Down")
                     TEXT += f"❌ - @{bot}\n"
                     app.send_message(BOT_OWNER, f"❌ - @{bot} IS DOWN !")
@@ -76,7 +76,7 @@ def main():
                 time.sleep(15)
                 msg = app.get_history(re, 1)[0]
 
-                if x.message_id == msg.message_id:
+                if x.message.id == msg.message.id:
                     print(f"⛔ [WARNING] I Can't Restart @{re}")
                     TEXT += f"❌ - @{re}\n"
                     app.send_message(BOT_OWNER, f"⛔ - I Can't Restart @{re} !")
