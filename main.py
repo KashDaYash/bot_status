@@ -48,8 +48,8 @@ async def check_bot_status(app, bot, BOT_OWNER, LOGGER_CHAT):
         async for msg in app.get_chat_history(bot, limit=1):
             if x.id == msg.id:
                 print(f"⚠️ [WARNING] @{bot} Is Down")
-                TEXT += f"❌ - @{bot}\n"
-                await app.send_message(LOGGER_CHAT, f"❌ - @{bot} IS DOWN !")
+                TEXT = f"❌ - @{bot}\n"
+                await app.send_message(LOGGER_CHAT, f"❌ - @{bot} IS DOWN !!")
             else:
                 print(f"☑ [INFO] All Good With @{bot}")
                 TEXT += f"✅ - @{bot}\n"
@@ -71,11 +71,11 @@ async def check_restart_status(app, re, BOT_OWNER, LOGGER_CHAT):
             if x.id == msg.id:
                 print(f"⛔ [WARNING] I Can't Restart @{re}")
                 TEXT = f"❌ - @{re}\n"
-                await app.send_message(LOGGER_CHAT, f"⛔ - I Can't Restart @{re} !")
+                await app.send_message(LOGGER_CHAT, f"⛔ - I Can't Restart @{re} !!")
             else:
                 print(f"✅ [INFO] Restarted @{re}")
                 TEXT += f"✅ - @{re}\n"
-                await app.send_message(LOGGER_CHAT, f"✅ - @{re} #RESTARTED #DONE !")
+                await app.send_message(LOGGER_CHAT, f"✅ - @{re} #RESTARTED !!")
     except FloodWait as e:
         print(f"⚠️ [WARNING] FloodWait for {e.x} seconds. Retrying...")
         await asyncio.sleep(e.x)
