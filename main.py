@@ -27,7 +27,7 @@ BOT_OWNER = getenv("BOT_OWNER")
 
 # Your Channel Username Without '@'
 UPDATE_CHANNEL = getenv("UPDATE_CHANNEL")
-LOGGER_CHAT = -1001218085896
+LOGGER_CHAT = -1001989843749
 # Message Id Of Your Channel Bot Status Message
 STATUS_MESSAGE_ID = int(getenv("STATUS_MESSAGE_ID"))
 
