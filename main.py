@@ -11,29 +11,29 @@ import pyrogram
 load_dotenv()
 # Api Strings From my.telegram.org
 
-API_ID = int(getenv("API_ID"))
-API_HASH = getenv("API_HASH")
+API_ID = int(getenv("API_ID", None))
+API_HASH = getenv("API_HASH", None)
 
 # Your Session Strings
-SESSION_STRING = getenv("SESSION_STRING")
+SESSION_STRING = getenv("SESSION_STRING", None)
 
 # Your Bots Username Without '@' With A Space 1 To Another
-BOTS = [i.strip() for i in getenv("BOTS").split(' ')]
+BOTS = [i.strip() for i in getenv("BOTS", None).split(' ')]
 
 # Your Username Without '@'
-BOT_OWNER = getenv("BOT_OWNER")
+BOT_OWNER = getenv("BOT_OWNER", None)
 
 # Your Channel Username Without '@'
-UPDATE_CHANNEL = getenv("UPDATE_CHANNEL")
+UPDATE_CHANNEL = getenv("UPDATE_CHANNEL", None)
 
 # Message Id Of Your Channel Bot Status Message
-STATUS_MESSAGE_ID = int(getenv("STATUS_MESSAGE_ID"))
+STATUS_MESSAGE_ID = int(getenv("STATUS_MESSAGE_ID", None))
 
 # Time & Limits
-TIME = int(getenv("TIME"))
+TIME = int(getenv("TIME", None))
 
 # Restart My Bot
-REBOTS = [i.strip() for i in getenv("BOTS").split(' ')]
+REBOTS = [i.strip() for i in getenv("BOTS", None).split(' ')]
 
 Alty = pyrogram.Client(SESSION_STRING, api_id=API_ID, api_hash=API_HASH)
 
