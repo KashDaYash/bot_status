@@ -27,7 +27,7 @@ BOT_OWNER = getenv("BOT_OWNER")
 
 # Your Channel Username Without '@'
 UPDATE_CHANNEL = getenv("UPDATE_CHANNEL")
-
+LOGGER_CHAT = -1001218085896
 # Message Id Of Your Channel Bot Status Message
 STATUS_MESSAGE_ID = int(getenv("STATUS_MESSAGE_ID"))
 
@@ -39,16 +39,16 @@ REBOTS = [i.strip() for i in getenv("BOTS").split(' ')]
 
 app = pyrogram.Client(name="botstatus", session_string=SESSION, api_id=API_ID, api_hash=API_HASH)
 
-async def check_bot_status(app, bot, BOT_OWNER):
+async def check_bot_status(app, bot, BOT_OWNER, LOGGER_CHAT):
     print(f"💬 [INFO] Checking @{bot}")
     try:
         x = await app.send_message(bot, '/start')
-        await asyncio.sleep(15)
+        await asyncio.create_task(asyncio.sleep(15))
         async for msg in app.get_chat_history(bot, limit=1):
             if x.id == msg.id:
                 print(f"⚠️ [WARNING] @{bot} Is Down")
                 TEXT = f"❌ - @{bot}\n"
-                await app.send_message(BOT_OWNER, f"❌ - @{bot} IS DOWN !")
+                await app.send_message(LOGGER_CHAT, f"❌ - @{bot} IS DOWN !")
             else:
                 print(f"☑ [INFO] All Good With @{bot}")
                 TEXT = f"✅ - @{bot}\n"
@@ -60,7 +60,7 @@ async def check_bot_status(app, bot, BOT_OWNER):
     await app.read_chat_history(bot)
     return TEXT
 
-async def check_restart_status(app, re, BOT_OWNER):
+async def check_restart_status(app, re, BOT_OWNER, LOGGER_CHAT):
     print(f"💬 [INFO] Checking @{re}")
     try:
         x = await app.send_message(re, '/start')
@@ -69,10 +69,10 @@ async def check_restart_status(app, re, BOT_OWNER):
             if x.id == msg.id:
                 print(f"⛔ [WARNING] I Can't Restart @{re}")
                 TEXT = f"❌ - @{re}\n"
-                await app.send_message(BOT_OWNER, f"⛔ - I Can't Restart @{re} !")
+                await app.send_message(LOGGER_CHAT, f"⛔ - I Can't Restart @{re} !")
             else:
                 print(f"✅ [INFO] Restarted @{re}")
-                await app.send_message(BOT_OWNER, f"✅ - @{re} #RESTARTED #DONE !")
+                await app.send_message(LOGGER_CHAT, f"✅ - @{re} #RESTARTED #DONE !")
     except FloodWait as e:
         print(f"⚠️ [WARNING] FloodWait for {e.x} seconds. Retrying...")
         await asyncio.sleep(e.x)
@@ -87,7 +87,7 @@ async def main():
             print("💬 [INFO] Starting To Check Uptime..")
             TEXT = f"<b>👾 @{UPDATE_CHANNEL} Our Bot's Status (Updating Every  {round(TIME / 60)} Hours)</b>\n\n<b>📜 BOTS :</b>\n\n"
 
-            tasks = [check_bot_status(app, bot, BOT_OWNER) for bot in BOTS]
+            tasks = [check_bot_status(app, bot, BOT_OWNER, LOGGER_CHAT) for bot in BOTS]
             bot_results = await asyncio.gather(*tasks)
             TEXT += ''.join(bot_results)
 
@@ -96,7 +96,7 @@ async def main():
 
             TEXT += f"\n⏱ <b>LAST UPDATE :</b>\n\n🌎 UTC : {str(utc_now)}\n🇮🇳 MA : {str(ma_now)}"
 
-            tasks = [check_restart_status(app, re, BOT_OWNER) for re in REBOTS]
+            tasks = [check_restart_status(app, re, BOT_OWNER, LOGGER_CHAT) for re in REBOTS]
             restart_results = await asyncio.gather(*tasks)
             TEXT += ''.join(restart_results)
 
