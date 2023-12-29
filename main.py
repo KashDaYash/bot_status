@@ -91,10 +91,10 @@ async def main():
             bot_results = await asyncio.gather(*tasks)
             TEXT += ''.join(bot_results)
 
-            utc_now = datetime.datetime.now(pytz.timezone('UTC')).strftime("%I:%M %p %d/%m/%y")
-            ma_now = datetime.datetime.now(pytz.timezone('Asia/Kolkata')).strftime("%d/%m/%y %I:%M:%S %p")
+            #utc_now = datetime.datetime.now(pytz.timezone('UTC')).strftime("%I:%M %p %d/%m/%y")
+            in_now = datetime.datetime.now(pytz.timezone('Asia/Kolkata')).strftime("%d/%m/%y %I:%M:%S %p")
 
-            TEXT += f"\n⏱ <b>LAST UPDATE :</b>\n\n🌎 UTC : {str(utc_now)}\n🇮🇳 India: {str(ma_now)}"
+            TEXT += f"\n⏱ <b>LAST UPDATE :</b>\n\n🇮🇳 India: {str(in_now)}"
 
             '''taskss = [check_restart_status(app, re, BOT_OWNER, LOGGER_CHAT) for re in REBOTS]
             restart_results = await asyncio.gather(*taskss)'''
