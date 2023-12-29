@@ -85,7 +85,7 @@ async def main():
     async with app:
         while True:
             print("💬 [INFO] Starting To Check Uptime..")
-            TEXT = f"<b>👾 @{UPDATE_CHANNEL} Our Bot's Status (Updating Every  {round(TIME / 60)} Hours)</b>\n\n<b>📜 BOTS :</b>\n\n"
+            TEXT = f"<b>👾 @{UPDATE_CHANNEL} Our Bot's Status (Updating Every  {round(TIME // 60// 60)} Hours)</b>\n\n<b>📜 BOTS :</b>\n\n"
 
             tasks = [check_bot_status(app, bot, BOT_OWNER, LOGGER_CHAT) for bot in BOTS]
             bot_results = await asyncio.gather(*tasks)
@@ -94,7 +94,7 @@ async def main():
             utc_now = datetime.datetime.now(pytz.timezone('UTC')).strftime("%I:%M %p %d/%m/%y")
             ma_now = datetime.datetime.now(pytz.timezone('Asia/Kolkata')).strftime("%d/%m/%y %I:%M:%S %p")
 
-            TEXT += f"\n⏱ <b>LAST UPDATE :</b>\n\n🌎 UTC : {str(utc_now)}\n🇮🇳 MA : {str(ma_now)}"
+            TEXT += f"\n⏱ <b>LAST UPDATE :</b>\n\n🌎 UTC : {str(utc_now)}\n🇮🇳 India: {str(ma_now)}"
 
             '''taskss = [check_restart_status(app, re, BOT_OWNER, LOGGER_CHAT) for re in REBOTS]
             restart_results = await asyncio.gather(*taskss)'''
