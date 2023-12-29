@@ -100,7 +100,7 @@ async def main():
             restart_results = await asyncio.gather(*taskss)'''
 
             try:
-                await app.edit_message_text(UPDATE_CHANNEL, STATUS_MESSAGE_ID, text=TEXT, disable_web_page_preview=True, parse_mode="html")
+                await app.edit_message_text(UPDATE_CHANNEL, STATUS_MESSAGE_ID, text=TEXT, disable_web_page_preview=True, parse_mode=pyrogram.enums.ParseMode.HTML)
                 print(f"[INFO] Everything Done! Sleeping For {round(TIME / 60)} Hours...")
             except FloodWait as e:
                 print(f"⚠️ [WARNING] FloodWait for {e.x} seconds. Retrying...")
