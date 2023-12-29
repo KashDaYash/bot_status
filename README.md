@@ -8,5 +8,5 @@ Updates Your Bot Status, Every {} Hours.
 ### ✅ Demo : [Here](https://t.me/UvinduBro/59)
 
 ## 👨‍💻 Deploy: 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/UvinduBro/BotStatus/tree/Pyrogram)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/KashDaYash/bot_status/tree/Pyrogram)
 
