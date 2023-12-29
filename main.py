@@ -1,35 +1,39 @@
 # (C) @DamienSoukara 
 
-import os
+from os import getenv
+from dotenv import load_dotenv
+
 import time
 import datetime
 import pytz
 import pyrogram
 
+load_dotenv()
 # Api Strings From my.telegram.org
-API_ID = int(os.environ.get("API_ID"))
-API_HASH = os.environ.get("API_HASH")
+
+API_ID = int(("API_ID"))
+API_HASH = getenv("API_HASH")
 
 # Your Session Strings
-SESSION_STRING = os.environ.get("SESSION_STRING")
+SESSION_STRING = getenv("SESSION_STRING")
 
 # Your Bots Username Without '@' With A Space 1 To Another
-BOTS = [i.strip() for i in os.environ.get("BOTS").split(' ')]
+BOTS = [i.strip() for i in getenv("BOTS").split(' ')]
 
 # Your Username Without '@'
-BOT_OWNER = os.environ.get("BOT_OWNER")
+BOT_OWNER = getenv("BOT_OWNER")
 
 # Your Channel Username Without '@'
-UPDATE_CHANNEL = os.environ.get("UPDATE_CHANNEL")
+UPDATE_CHANNEL = getenv("UPDATE_CHANNEL")
 
 # Message Id Of Your Channel Bot Status Message
-STATUS_MESSAGE_ID = int(os.environ.get("STATUS_MESSAGE_ID"))
+STATUS_MESSAGE_ID = int(getenv("STATUS_MESSAGE_ID"))
 
 # Time & Limits
-TIME = int(os.environ.get("TIME"))
+TIME = int(getenv("TIME"))
 
 # Restart My Bot
-REBOTS = [i.strip() for i in os.environ.get("DEZ").split(' ')]
+REBOTS = [i.strip() for i in getenv("DEZ").split(' ')]
 
 Alty = pyrogram.Client(SESSION_STRING, api_id=API_ID, api_hash=API_HASH)
 
