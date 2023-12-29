@@ -61,7 +61,7 @@ async def check_bot_status(app, bot, BOT_OWNER, LOGGER_CHAT):
     await app.read_chat_history(bot)
     return TEXT
 
-async def check_restart_status(app, re, BOT_OWNER, LOGGER_CHAT):
+'''async def check_restart_status(app, re, BOT_OWNER, LOGGER_CHAT):
     print(f"💬 [INFO] Checking @{re}")
     try:
         x = await app.send_message(re, '/start')
@@ -79,7 +79,7 @@ async def check_restart_status(app, re, BOT_OWNER, LOGGER_CHAT):
         await asyncio.sleep(e.x)
         TEXT = await check_restart_status(app, re, BOT_OWNER, LOGGER_CHAT)
 
-    await app.read_chat_history(re)
+    await app.read_chat_history(re)'''
 
 async def main():
     async with app:
@@ -96,8 +96,8 @@ async def main():
 
             TEXT += f"\n⏱ <b>LAST UPDATE :</b>\n\n🌎 UTC : {str(utc_now)}\n🇮🇳 MA : {str(ma_now)}"
 
-            taskss = [check_restart_status(app, re, BOT_OWNER, LOGGER_CHAT) for re in REBOTS]
-            restart_results = await asyncio.gather(*taskss)
+            '''taskss = [check_restart_status(app, re, BOT_OWNER, LOGGER_CHAT) for re in REBOTS]
+            restart_results = await asyncio.gather(*taskss)'''
 
             try:
                 await app.edit_message_text(UPDATE_CHANNEL, STATUS_MESSAGE_ID, text=TEXT, disable_web_page_preview=True, parse_mode="html")
@@ -106,7 +106,7 @@ async def main():
                 print(f"⚠️ [WARNING] FloodWait for {e.x} seconds. Retrying...")
                 await asyncio.sleep(e.x)
 
-            await asyncio.sleep(TIME * 60)
+            await asyncio.sleep(TIME)
 
 if __name__ == "__main__":
     asyncio.run(main())
