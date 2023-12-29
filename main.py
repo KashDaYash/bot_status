@@ -56,7 +56,7 @@ async def check_bot_status(app, bot, BOT_OWNER):
         print(f"⚠️ [WARNING] FloodWait for {e.x} seconds. Retrying...")
         await asyncio.sleep(e.x)
         TEXT = await check_bot_status(app, bot, BOT_OWNER)
-    
+
     await app.read_chat_history(bot)
     return TEXT
 
@@ -82,9 +82,7 @@ async def check_restart_status(app, re, BOT_OWNER):
     return TEXT
 
 async def main():
-    loop = asyncio.get_event_loop()
     async with app:
-        task = loop.create_task(your_coroutine())
         while True:
             print("💬 [INFO] Starting To Check Uptime..")
             TEXT = f"<b>👾 @{UPDATE_CHANNEL} Our Bot's Status (Updating Every  {round(TIME / 60)} Hours)</b>\n\n<b>📜 BOTS :</b>\n\n"
